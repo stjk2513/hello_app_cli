@@ -107,6 +107,14 @@ pkg.scripts = {
   test: 'vitest'
 };
 fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
+
+const tsconfig = JSON.parse(fs.readFileSync('tsconfig.app.json', 'utf8'));
+tsconfig.compilerOptions = {
+  tsBuildInfoFile: "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+  types: ["vite/client", "vitest/globals"],
+  ...tsconfig.compilerOptions
+}
+fs.writeFileSync('tsconfig.app.json', JSON.stringify(tsconfig, null, 2));
 NODEJS
     echo "   Deploy scripts added"
 
