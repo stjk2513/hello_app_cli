@@ -103,7 +103,8 @@ const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 pkg.scripts = {
   ...pkg.scripts,
   predeploy: 'npm run build',
-  deploy: 'gh-pages -d dist'
+  deploy: 'gh-pages -d dist',
+  test: 'vitest'
 };
 fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
 NODEJS
