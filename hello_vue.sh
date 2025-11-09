@@ -108,13 +108,16 @@ pkg.scripts = {
 };
 fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
 
-const tsconfig = JSON.parse(fs.readFileSync('tsconfig.app.json', 'utf8'));
-tsconfig.compilerOptions = {
-  tsBuildInfoFile: "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
-  types: ["vite/client", "vitest/globals"],
-  ...tsconfig.compilerOptions
+let tsconfig = fs.readFileSync('tsconfig.app.json', 'utf8');
+
+if (tsconfig.includes('"types"')) {
+  tsconfig = tsconfig.replace(
+    /"types":\s*\[[^\]]*\]/,
+    '"types": ["vite/client", "vitest/globals"]'
+  )
 }
-fs.writeFileSync('tsconfig.app.json', JSON.stringify(tsconfig, null, 2));
+
+fs.writeFileSync('tsconfig.app.json', tsconfig, 'utf8');
 NODEJS
     echo "   Deploy scripts added"
 
