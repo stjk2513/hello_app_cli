@@ -30,6 +30,7 @@ hello_vue() {
     # Install dependencies
     echo -e "\n${GREEN}📦 Installing dependencies...${NC}"
     npm install
+    npm install --save-dev vitest @vue/test-utils jsdom
 
     # Step 2: Clean up boilerplate (optional)
     echo -e "\n${YELLOW}🧹 Clean up boilerplate files? (y/n):${NC} "
@@ -72,12 +73,16 @@ EOF
     # Step 3: Update Vite config for port 3000
     echo -e "\n${GREEN}⚙️  Step 3: Configuring Vite for port 3000...${NC}"
     cat > vite.config.ts << EOF
-import { defineConfig } from 'vite'
+import { defineConfig } from "vitest/config";
 import vue from '@vitejs/plugin-vue'
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [vue()],
+  test: {
+    environment: "jsdom",
+    globals: true,
+  },
   server: {
     port: 3000
   },
